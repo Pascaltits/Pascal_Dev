@@ -1,0 +1,38 @@
+# French translation of divBlock
+msgid ""
+msgstr ""
+"Project-Id-Version: divBlock 0.2\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Div Block"
+msgstr "Bloc div"
+
+msgid "Adds an \"Insert div block\" button (layout presets, class, style) to the CKEditor toolbar"
+msgstr "Ajoute un bouton « Insérer un bloc div » (mises en page prédéfinies, classe, style) à la barre d'outils CKEditor"
+
+msgid "Framed box"
+msgstr "Encadré"
+
+msgid "Highlighted box"
+msgstr "Mise en avant"
+
+msgid "Alert box"
+msgstr "Alerte"
+
+msgid "Text in two columns"
+msgstr "Texte sur deux colonnes"
+
+msgid "Text in three columns"
+msgstr "Texte sur trois colonnes"
+
+msgid "Two side-by-side blocks"
+msgstr "Deux blocs côte à côte"
+
+msgid "Three side-by-side blocks"
+msgstr "Trois blocs côte à côte"
+
+msgid "Two overlapping blocks"
+msgstr "Deux blocs qui se chevauchent"
