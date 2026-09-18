@@ -22,13 +22,20 @@ class Backend
 
     public static function init(): bool
     {
+        // Dead but useful code (for l10n)
+        __('Div Block');
+        __('Adds an "Insert div block" button (layout presets, class, style) to the CKEditor toolbar');
+
         return self::status(My::checkContext(My::BACKEND));
     }
 
     public static function process(): bool
     {
         if (self::status()) {
-            App::behavior()->addBehavior('ckeditorExtraPlugins', BackendBehaviors::ckeditorExtraPlugins(...));
+            App::behavior()->addBehaviors([
+                'adminPostEditor'      => BackendBehaviors::adminPostEditor(...),
+                'ckeditorExtraPlugins' => BackendBehaviors::ckeditorExtraPlugins(...),
+            ]);
         }
 
         return self::status();

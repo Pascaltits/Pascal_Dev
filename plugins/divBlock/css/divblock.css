@@ -1,0 +1,112 @@
+/*
+ * divBlock — layout presets for <div> containers inserted from the editor.
+ *
+ * Loaded both inside the CKEditor editing area (so authors see the layout
+ * while writing) and on the public site. Class names are listed in
+ * src/DivStyles.php; keep both files in sync when adding a preset.
+ */
+
+/* Boxes */
+
+.dcdiv-framed {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  background: #f5f5f5;
+  color: #222;
+}
+
+.dcdiv-highlight {
+  padding: 1rem 1.25rem;
+  border-left: 4px solid #4878d1;
+  background: #eef3fb;
+  color: #222;
+}
+
+.dcdiv-alert {
+  padding: 1rem 1.25rem;
+  border: 1px solid #e0a800;
+  background: #fff8e1;
+  color: #5c4400;
+}
+
+/* Text flowing in newspaper-like columns (one wrapper, content flows) */
+
+.dcdiv-cols-2 {
+  column-count: 2;
+  column-gap: 2rem;
+}
+
+.dcdiv-cols-3 {
+  column-count: 3;
+  column-gap: 2rem;
+}
+
+/* Side-by-side blocks: each child block (paragraph, image, list...) takes a cell */
+
+.dcdiv-grid-2,
+.dcdiv-grid-3,
+.dcdiv-overlap-2 {
+  display: grid;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.dcdiv-grid-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.dcdiv-grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.dcdiv-grid-2 > *,
+.dcdiv-grid-3 > *,
+.dcdiv-overlap-2 > * {
+  margin: 0;
+}
+
+/* Two blocks where the second one overlaps the first (card effect) */
+
+.dcdiv-overlap-2 {
+  grid-template-columns: 1.3fr 1fr;
+  gap: 0;
+}
+
+.dcdiv-overlap-2 > :nth-child(odd) {
+  padding: 1.25rem 4rem 1.25rem 1.25rem;
+  background: #eef2f7;
+  color: #222;
+  border-radius: 0.25rem;
+}
+
+.dcdiv-overlap-2 > :nth-child(even) {
+  position: relative;
+  z-index: 1;
+  margin-left: -3rem;
+  margin-top: 2rem;
+  padding: 1rem 1.25rem;
+  background: #fff;
+  color: #222;
+  border-radius: 0.25rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Small screens: stack everything */
+
+@media (max-width: 640px) {
+  .dcdiv-cols-2,
+  .dcdiv-cols-3 {
+    column-count: 1;
+  }
+
+  .dcdiv-grid-2,
+  .dcdiv-grid-3,
+  .dcdiv-overlap-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .dcdiv-overlap-2 > :nth-child(even) {
+    margin-left: 0;
+    margin-top: -1rem;
+  }
+}

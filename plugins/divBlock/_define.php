@@ -16,10 +16,10 @@
  */
 if (isset($this) && is_object($this) && method_exists($this, 'registerModule') && isset($this->id) && is_string($this->id)) {
     $this->registerModule(
-        'Div Block',                                                            // Name
-        'Adds an "Insert div block" button (class/style) to the CKEditor toolbar', // Description
-        'Pascal Tiberghien',                                                    // Author
-        '0.1',                                                                  // Version
+        'Div Block',                                                                                       // Name
+        'Adds an "Insert div block" button (layout presets, class, style) to the CKEditor toolbar',        // Description
+        'Pascal Tiberghien',                                                                               // Author
+        '0.2',                                                                                             // Version
         [
             'permissions' => 'My',
             'type'        => 'plugin',

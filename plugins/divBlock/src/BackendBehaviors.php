@@ -19,6 +19,24 @@ use Dotclear\App;
 class BackendBehaviors
 {
     /**
+     * Pass the style presets and the stylesheet URL to the CKEditor plugin.
+     *
+     * @param   string  $editor     The editor
+     * @param   string  $context    The page context (post, page, comment, ...)
+     */
+    public static function adminPostEditor(string $editor = '', string $context = ''): string
+    {
+        if ($editor !== 'dcCKEditor' || $context !== 'post') {
+            return '';
+        }
+
+        return App::backend()->page()->jsJson('divblock', [
+            'styles' => DivStyles::list(),
+            'css'    => My::fileURL('css/divblock.css'),
+        ]);
+    }
+
+    /**
      * Register the "CreateDiv" button in the CKEditor toolbar.
      *
      * CKEditor ships a built-in 'div' plugin (dialog "Create Div Container":

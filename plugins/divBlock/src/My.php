@@ -20,10 +20,11 @@ class My extends MyPlugin
 {
     protected static function checkCustomContext(int $context): ?bool
     {
-        // No admin page: just needs to run for any backend (post/page editor) user.
+        // No admin page. Backend: any post/page editor user. Frontend: default
+        // rules (the public stylesheet must be served to every visitor).
         return match ($context) {
-            self::INSTALL => null,
-            default       => App::task()->checkContext('BACKEND'),
+            self::INSTALL, self::FRONTEND => null,
+            default                       => App::task()->checkContext('BACKEND'),
         };
     }
 }
