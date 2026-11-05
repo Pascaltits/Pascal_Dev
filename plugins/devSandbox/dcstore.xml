@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Flux de dépôt Dotclear (DotAddict / mise à jour automatique). Mettre à jour version et file à chaque release. -->
+<modules xmlns:da="http://dotaddict.org/da/">
+  <module id="devSandbox">
+    <name>Dev Sandbox</name>
+    <version>0.1.0</version>
+    <author>Pascal Tits</author>
+    <desc>Bac à sable de développement : exemple de plugin</desc>
+    <file>https://github.com/pascaltits/pascal_dev/releases/download/devSandbox-v0.1.0/devSandbox-0.1.0.zip</file>
+    <da:dcmin>2.39</da:dcmin>
+    <da:details>https://github.com/pascaltits/pascal_dev</da:details>
+    <da:support>https://github.com/pascaltits/pascal_dev/issues</da:support>
+  </module>
+</modules>

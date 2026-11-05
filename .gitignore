@@ -1,0 +1,20 @@
+# Sources Dotclear téléchargées par le conteneur (étudiables localement, mais pas versionnées)
+/dotclear/
+
+# Dépendances Composer (outils qualité)
+/vendor/
+
+# Configuration locale
+/.env
+
+# Caches et artefacts
+/.phpstan-cache/
+/.php-cs-fixer.cache
+/build/
+/*.zip
+
+# Éditeurs / OS
+.idea/
+*.swp
+.DS_Store
+Thumbs.db

@@ -1,0 +1,28 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Dotclear : écouter Xdebug (Docker)",
+      "type": "php",
+      "request": "launch",
+      "port": 9003,
+      "pathMappings": {
+        "/workspace": "${workspaceFolder}",
+        "/var/www/html": "${workspaceFolder}/dotclear"
+      },
+      "log": false,
+      "ignore": ["**/vendor/**/*.php"]
+    },
+    {
+      "name": "Dotclear : écouter Xdebug (plugins seulement)",
+      "type": "php",
+      "request": "launch",
+      "port": 9003,
+      "pathMappings": {
+        "/workspace": "${workspaceFolder}",
+        "/var/www/html": "${workspaceFolder}/dotclear"
+      },
+      "skipFiles": ["${workspaceFolder}/dotclear/**"]
+    }
+  ]
+}
