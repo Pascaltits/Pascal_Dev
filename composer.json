@@ -15,10 +15,17 @@
     "cs": "php-cs-fixer fix --dry-run --diff",
     "cs-fix": "php-cs-fixer fix",
     "stan": "phpstan analyse --memory-limit=-1",
-    "check": ["@lint", "@cs", "@stan"]
+    "check": [
+      "@lint",
+      "@cs",
+      "@stan"
+    ]
   },
   "config": {
     "sort-packages": true,
-    "allow-plugins": false
+    "allow-plugins": false,
+    "platform": {
+      "php": "8.2.0"
+    }
   }
 }

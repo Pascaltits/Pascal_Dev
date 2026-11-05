@@ -19,8 +19,8 @@ fi
 mkdir -p "$DEST"
 tmp="$(mktemp -d)"
 echo ">> Téléchargement de Dotclear ${DC_VERSION}…"
-if curl -fsSL -o "$tmp/dc.tar.gz" "https://download.dotclear.org/attic/dotclear-${DC_VERSION}.tar.gz" \
-   || curl -fsSL -o "$tmp/dc.tar.gz" "https://github.com/dotclear/dotclear/archive/refs/tags/${DC_VERSION}.tar.gz"; then
+if curl -fsSL -o "$tmp/dc.tar.gz" "https://download.dotclear.org/attic/dotclear-${DC_VERSION}.tar.gz" 2>/dev/null \
+   || curl -fsSL -o "$tmp/dc.tar.gz" "https://github.com/dotclear/dotclear/archive/refs/tags/${DC_VERSION}.tar.gz" 2>/dev/null; then
     tar -xzf "$tmp/dc.tar.gz" --strip-components=1 -C "$DEST"
 else
     echo "   archives indisponibles, clonage git du tag ${DC_VERSION}…"
