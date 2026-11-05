@@ -1,0 +1,36 @@
+{
+  "name": "Dotclear — développement de plugins",
+  "dockerComposeFile": ["../docker-compose.yml"],
+  "service": "dotclear",
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+  "forwardPorts": [80, "adminer:8080"],
+  "portsAttributes": {
+    "80": { "label": "Dotclear", "onAutoForward": "notify" },
+    "adminer:8080": { "label": "Adminer (base de données)", "onAutoForward": "silent" },
+    "9003": { "label": "Xdebug", "onAutoForward": "ignore" }
+  },
+  "remoteUser": "root",
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "xdebug.php-debug",
+        "bmewburn.vscode-intelephense-client",
+        "junstyle.php-cs-fixer",
+        "EditorConfig.EditorConfig",
+        "ms-azuretools.vscode-docker",
+        "redhat.vscode-yaml"
+      ],
+      "settings": {
+        "php.validate.executablePath": "/usr/local/bin/php",
+        "php-cs-fixer.executablePath": "${workspaceFolder}/vendor/bin/php-cs-fixer",
+        "php-cs-fixer.config": "${workspaceFolder}/.php-cs-fixer.dist.php",
+        "php-cs-fixer.onsave": false,
+        "intelephense.environment.phpVersion": "8.3.0",
+        "intelephense.environment.includePaths": ["/var/www/html"],
+        "files.exclude": { "**/.git": true }
+      }
+    }
+  }
+}

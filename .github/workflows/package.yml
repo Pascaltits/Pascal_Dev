@@ -1,0 +1,45 @@
+# Construit l'archive zip d'un plugin et la publie en artefact (manuel) ou en release (tag <id>-vX.Y.Z).
+name: Package plugin
+
+on:
+  workflow_dispatch:
+    inputs:
+      plugin:
+        description: "Identifiant du plugin (dossier dans plugins/)"
+        required: true
+        default: "devSandbox"
+  push:
+    tags: ["*-v*"]
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          coverage: none
+
+      - name: Déterminer le plugin
+        id: meta
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            tag="${GITHUB_REF_NAME}"; echo "plugin=${tag%-v*}" >> "$GITHUB_OUTPUT"
+          else
+            echo "plugin=${{ inputs.plugin }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Construire l'archive
+        run: bash scripts/package-plugin.sh "${{ steps.meta.outputs.plugin }}"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.meta.outputs.plugin }}
+          path: build/*.zip
+
+      - name: Release GitHub
+        if: github.event_name == 'push'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/*.zip

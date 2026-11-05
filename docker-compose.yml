@@ -1,0 +1,77 @@
+# Environnement de développement de plugins Dotclear
+#   make up        → démarre tout (http://localhost:8080)
+#   make install   → crée le compte administrateur et le blog
+#   make down      → arrête les conteneurs
+services:
+  dotclear:
+    build:
+      context: ./docker
+      args:
+        PHP_VERSION: ${PHP_VERSION:-8.3}
+    image: pascal-dev/dotclear-dev:${PHP_VERSION:-8.3}
+    container_name: dotclear-dev
+    ports:
+      - "${DC_HTTP_PORT:-8080}:80"
+    volumes:
+      # Sources Dotclear (téléchargées au premier démarrage, consultables dans ./dotclear)
+      - ./dotclear:/var/www/html
+      # Le dépôt complet (plugins en cours de développement, outils qualité)
+      - .:/workspace
+    environment:
+      DC_VERSION: ${DC_VERSION:-2.39.3}
+      DC_PUBLIC_URL: ${DC_PUBLIC_URL:-http://localhost:8080}
+      DC_DBDRIVER: ${DC_DBDRIVER:-mysqlimb4}
+      DC_DBHOST: ${DC_DBHOST:-db}
+      DC_DBNAME: ${DC_DBNAME:-dotclear}
+      DC_DBUSER: ${DC_DBUSER:-dotclear}
+      DC_DBPASSWORD: ${DC_DBPASSWORD:-dotclear}
+      DC_DBPREFIX: ${DC_DBPREFIX:-dc_}
+      DC_MASTER_KEY: ${DC_MASTER_KEY:-dev-master-key-change-me}
+      DC_ADMIN_MAILFROM: ${DC_ADMIN_MAILFROM:-dotclear@localhost}
+      DC_DEBUG: ${DC_DEBUG:-1}
+      DC_DEV: ${DC_DEV:-1}
+      DC_REVERSE_PROXY: ${DC_REVERSE_PROXY:-0}
+      DC_ADMIN_LOGIN: ${DC_ADMIN_LOGIN:-admin}
+      DC_ADMIN_PASSWORD: ${DC_ADMIN_PASSWORD:-adminadmin}
+      DC_ADMIN_EMAIL: ${DC_ADMIN_EMAIL:-admin@example.org}
+      DC_ADMIN_FIRSTNAME: ${DC_ADMIN_FIRSTNAME:-Admin}
+      DC_ADMIN_NAME: ${DC_ADMIN_NAME:-Dotclear}
+      XDEBUG_MODE: ${XDEBUG_MODE:-debug,develop}
+      XDEBUG_START_WITH_REQUEST: ${XDEBUG_START_WITH_REQUEST:-yes}
+      COMPOSER_HOME: /tmp/composer
+    extra_hosts:
+      # Permet à Xdebug de joindre l'IDE sur la machine hôte (Linux inclus)
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mariadb:11
+    container_name: dotclear-db
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+      MARIADB_DATABASE: ${DC_DBNAME:-dotclear}
+      MARIADB_USER: ${DC_DBUSER:-dotclear}
+      MARIADB_PASSWORD: ${DC_DBPASSWORD:-dotclear}
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  adminer:
+    image: adminer:latest
+    container_name: dotclear-adminer
+    ports:
+      - "${ADMINER_PORT:-8081}:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+    depends_on:
+      - db
+
+volumes:
+  db-data:
