@@ -8,9 +8,29 @@ set -euo pipefail
 DC_ROOT=/var/www/html
 DC_VERSION="${DC_VERSION:-2.39.3}"
 
+is_dotclear_root() {
+    [ -f "$1/index.php" ] && [ -d "$1/inc" ]
+}
+
+# Retrouve la racine de Dotclear dans une archive extraite, quelle que soit son
+# arborescence (dotclear/…, ./dotclear/…, dotclear-x.y.z/…, niveau supplémentaire…).
+find_dotclear_root() {
+    local depth dir
+    for depth in 0 1 2 3; do
+        while IFS= read -r dir; do
+            if is_dotclear_root "$dir"; then
+                printf '%s\n' "$dir"
+                return 0
+            fi
+        done < <(find "$1" -mindepth "$depth" -maxdepth "$depth" -type d | sort)
+    done
+    return 1
+}
+
 download_dotclear() {
-    local tmp
+    local tmp root
     tmp="$(mktemp -d)"
+    mkdir "$tmp/src"
     echo ">> Téléchargement de Dotclear ${DC_VERSION}…"
     if curl -fsSL -o "$tmp/dotclear.tar.gz" "https://download.dotclear.org/attic/dotclear-${DC_VERSION}.tar.gz"; then
         echo "   source : download.dotclear.org"
@@ -20,11 +40,17 @@ download_dotclear() {
         echo "!! Impossible de télécharger Dotclear ${DC_VERSION}" >&2
         exit 1
     fi
-    tar -xzf "$tmp/dotclear.tar.gz" --strip-components=1 -C "$DC_ROOT"
+    tar -xzf "$tmp/dotclear.tar.gz" -C "$tmp/src"
+    if ! root="$(find_dotclear_root "$tmp/src")"; then
+        echo "!! Archive Dotclear ${DC_VERSION} inattendue : index.php et inc/ introuvables" >&2
+        rm -rf "$tmp"
+        exit 1
+    fi
+    cp -a "$root/." "$DC_ROOT/"
     rm -rf "$tmp"
 }
 
-if [ ! -f "$DC_ROOT/index.php" ] || [ ! -d "$DC_ROOT/inc" ]; then
+if ! is_dotclear_root "$DC_ROOT"; then
     download_dotclear
 fi
 
