@@ -1,0 +1,17 @@
+# Traductions françaises du plugin devSandbox.
+# Les chaînes sources sont déjà en français : ce fichier sert de modèle pour d'autres langues
+# (copier dans locales/en/main.po et traduire msgstr).
+msgid ""
+msgstr ""
+"Project-Id-Version: devSandbox 0.1.0\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Dev Sandbox"
+msgstr "Dev Sandbox"
+
+msgid "Bac à sable de développement : exemple de plugin"
+msgstr "Bac à sable de développement : exemple de plugin"

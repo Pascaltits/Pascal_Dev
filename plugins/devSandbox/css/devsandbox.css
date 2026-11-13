@@ -1,0 +1,7 @@
+.devsandbox-message {
+    margin: 1em 0;
+    padding: .5em 1em;
+    border-left: 4px solid #137bbf;
+    background: #eef6fb;
+    font-style: italic;
+}

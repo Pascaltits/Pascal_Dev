@@ -1,0 +1,41 @@
+# Analyse statique des plugins du dépôt contre l'API de Dotclear.
+# Les sources Dotclear doivent être présentes dans ./dotclear (make up ou scripts/fetch-dotclear.sh).
+parameters:
+    level: 6
+    tmpDir: .phpstan-cache
+
+    paths:
+        - plugins
+
+    excludePaths:
+        - plugins/*/vendor/*
+        - plugins/*/node_modules/*
+
+    # Déclarations du cœur (classes Dotclear\…, fonction __(), constantes)
+    scanDirectories:
+        - dotclear/src
+        - dotclear/inc
+        - dotclear/plugins
+    scanFiles:
+        - phpstan.bootstrap.php
+
+    bootstrapFiles:
+        - phpstan.bootstrap.php
+
+    # Objets dynamiques de Dotclear (mêmes réglages que le cœur)
+    universalObjectCratesClasses:
+        - Dotclear\Core\Frontend\Ctx
+        - Dotclear\Database\Cursor
+        - Dotclear\Database\Record
+        - Dotclear\Database\MetaRecord
+        - Dotclear\Helper\Html\XmlTag
+        - Dotclear\Module\ModuleDefine
+
+    ignoreErrors:
+        # $this n'est défini qu'au chargement de _define.php par Dotclear
+        - message: '#Variable \$this might not be defined#'
+          path: plugins/*/_define.php
+        - message: '#Cannot call method registerModule\(\) on mixed#'
+          path: plugins/*/_define.php
+
+    reportUnmatchedIgnoredErrors: false
